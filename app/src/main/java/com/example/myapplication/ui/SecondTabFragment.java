@@ -24,6 +24,9 @@ public class SecondTabFragment extends Fragment {
         View view = inflater.inflate( R.layout.second_tab_fragment, container,false);
 
         SegmentedButtonGroup sbg = (SegmentedButtonGroup) view.findViewById(R.id.segmentedbutton);
+        View vMainFeed = view.findViewById(R.id.vMainFeed);
+        View vSecondaryFeedView = view.findViewById(R.id.vSecondaryFeedView);
+
         sbg.setOnPositionChangedListener(new SegmentedButtonGroup.OnPositionChangedListener() {
             @Override
             public void onPositionChanged(int position) {
@@ -34,10 +37,11 @@ public class SecondTabFragment extends Fragment {
                     case 1:
                         Toast.makeText(getActivity(),"Entertainment & Environment",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
+
         sbg.getPosition();
+
         return view;
     }
 }

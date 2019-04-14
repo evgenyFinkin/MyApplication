@@ -4,11 +4,20 @@ package com.example.myapplication.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.model.Channel;
+import com.example.myapplication.model.RSS;
+import com.example.myapplication.server.FeedAPI;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +42,29 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(mViewPager);
 
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(FeedAPI.BASE_URL)
+                .addConverterFactory(SimpleXmlConverterFactory.create()).build();
+        FeedAPI feedAPI = retrofit.create(FeedAPI.class);
+        Call<RSS> call = feedAPI.getRSS();
+
+        call.enqueue(new Callback<RSS>() {
+            @Override
+            public void onResponse(Call<RSS> rss, Response<RSS> response) {
+                assert response.body() != null;
+                Log.d(TAG,"onResponse, RSS feed: " + response.body().getChannel().getItem());
+                Log.d(TAG,"onResponse, Server response:" + response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<RSS> rss, Throwable t) {
+                Log.e(TAG,"call.enqueue.onFailure: Was unable to retrieve RSS"
+                        + t.getMessage());
+                Toast.makeText(MainActivity.this,
+                        "Was unable to retrieve RSS",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager)    {
