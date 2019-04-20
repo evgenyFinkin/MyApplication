@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.addisonelliott.segmentedbutton.SegmentedButtonGroup;
@@ -24,8 +26,19 @@ public class SecondTabFragment extends Fragment {
         View view = inflater.inflate( R.layout.second_tab_fragment, container,false);
 
         SegmentedButtonGroup sbg = (SegmentedButtonGroup) view.findViewById(R.id.segmentedbutton);
-        View vMainFeed = view.findViewById(R.id.vMainFeed);
-        View vSecondaryFeedView = view.findViewById(R.id.vSecondaryFeedView);
+        LinearLayout MainFeed = (LinearLayout)view.findViewById(R.id.MainFeed);
+        LinearLayout SecondaryFeedView = (LinearLayout)view.findViewById(R.id.SecondaryFeedView);
+
+        TextView tvTitleMainFeed = (TextView) view.findViewById(R.id.tvTitleMainFeed);
+        TextView tvDescriptionMainFeed = (TextView) view.findViewById(R.id.tvDescriptionMainFeed);
+        TextView tvTitleSecondaryFeedView = (TextView) view.findViewById(R.id.tvTitleSecondaryFeedView);
+        TextView tvDescriptionSecondaryFeedView = (TextView) view.findViewById(R.id.tvDescriptionSecondaryFeedView);
+
+        /*
+        Bundle descriptionBundle = this.getArguments();
+        if(descriptionBundle != null)  {
+            tvTitleMainFeed.setText(descriptionBundle.getStringArrayList("NewsDescription").get(0));
+        }*/
 
         sbg.setOnPositionChangedListener(new SegmentedButtonGroup.OnPositionChangedListener() {
             @Override

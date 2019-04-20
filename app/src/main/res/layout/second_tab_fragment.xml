@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/tab"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -45,21 +46,63 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/segmentedbutton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
 
 
-        <View
-            android:id="@+id/vMainFeed"
+        <LinearLayout
+            android:id="@+id/MainFeed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <View
-            android:id="@+id/vSecondaryFeedView"
+            <TextView
+                android:id="@+id/tvTitleMainFeed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:layout_weight="9"
+                android:text="Title" />
+
+            <TextView
+                android:id="@+id/tvDescriptionMainFeed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:layout_weight="1"
+                android:text="Description" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/SecondaryFeedView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitleSecondaryFeedView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:layout_weight="9"
+                android:text="Title" />
+
+            <TextView
+                android:id="@+id/tvDescriptionSecondaryFeedView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:layout_weight="1"
+                android:text="Description" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

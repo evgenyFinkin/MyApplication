@@ -40,7 +40,7 @@ public class Item implements Serializable {
     public Item() {
 
     }
-
+/*
     @NonNull
     @Override
     public String toString() {
@@ -49,4 +49,6 @@ public class Item implements Serializable {
                 + "description: " + description + "\n"
                 + "---------------------------------------------------------------------------------";
     }
+
+*/
 }
