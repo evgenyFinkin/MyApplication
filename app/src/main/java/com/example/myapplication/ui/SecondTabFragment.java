@@ -1,7 +1,9 @@
 package com.example.myapplication.ui;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,17 @@ import android.widget.Toast;
 
 import com.addisonelliott.segmentedbutton.SegmentedButtonGroup;
 import com.example.myapplication.R;
-import com.example.myapplication.model.NewsArticle;
+import com.example.myapplication.model.Entry;
+import com.example.myapplication.util.FeedScroller;
+import com.example.myapplication.view.NewsArticle;
+import com.example.myapplication.view.NewsFeed;
+
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 
@@ -37,6 +45,24 @@ public class SecondTabFragment extends Fragment {
         TextView tvDescriptionMainFeed = (TextView) view.findViewById(R.id.tvDescriptionMainFeed);
         TextView tvTitleSecondaryFeedView = (TextView) view.findViewById(R.id.tvTitleSecondaryFeedView);
         TextView tvDescriptionSecondaryFeedView = (TextView) view.findViewById(R.id.tvDescriptionSecondaryFeedView);
+
+        NewsFeed newsFeed;
+        //tvTitleMainFeed.setText("Titledsadsad");
+        //tvDescriptionMainFeed.setText("dfjhskfhksdjhf");
+
+
+        NewsArticle newsArticle;
+        newsArticle = ViewModelProviders.of(getActivity()).get(NewsArticle.class);
+        newsArticle.init();
+        newsArticle.getNewsArticle().observe(this, entries -> {
+            //Log.d(TAG, "onCreateView: " + entries.get(feedScroller.scroll(entries)).getTitle());
+
+
+            tvTitleMainFeed.setText(entries.get(0).getTitle());
+            tvDescriptionMainFeed.setText(entries.get(0).getDescription());
+        });
+
+
 
         sbg.setOnPositionChangedListener(new SegmentedButtonGroup.OnPositionChangedListener() {
             @Override

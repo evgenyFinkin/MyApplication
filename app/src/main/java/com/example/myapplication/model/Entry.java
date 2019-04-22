@@ -3,8 +3,8 @@ package com.example.myapplication.model;
 import androidx.lifecycle.LiveData;
 
 public class Entry {
-    private String title;
-    private String description;
+    private String title = "No title";
+    private String description = "No description";
 
     public Entry(String title, String description) {
         this.title = title;
