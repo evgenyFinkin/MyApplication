@@ -1,5 +1,6 @@
 package com.example.myapplication.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +11,18 @@ import android.widget.Toast;
 
 import com.addisonelliott.segmentedbutton.SegmentedButtonGroup;
 import com.example.myapplication.R;
+import com.example.myapplication.model.NewsArticle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 
 public class SecondTabFragment extends Fragment {
 
     private static final String TAG = "SecondTabFragment";
+
 
     @Nullable
     @Override
@@ -33,12 +37,6 @@ public class SecondTabFragment extends Fragment {
         TextView tvDescriptionMainFeed = (TextView) view.findViewById(R.id.tvDescriptionMainFeed);
         TextView tvTitleSecondaryFeedView = (TextView) view.findViewById(R.id.tvTitleSecondaryFeedView);
         TextView tvDescriptionSecondaryFeedView = (TextView) view.findViewById(R.id.tvDescriptionSecondaryFeedView);
-
-        /*
-        Bundle descriptionBundle = this.getArguments();
-        if(descriptionBundle != null)  {
-            tvTitleMainFeed.setText(descriptionBundle.getStringArrayList("NewsDescription").get(0));
-        }*/
 
         sbg.setOnPositionChangedListener(new SegmentedButtonGroup.OnPositionChangedListener() {
             @Override

@@ -1,12 +1,14 @@
 package com.example.myapplication.model;
 
+import androidx.lifecycle.LiveData;
+
 public class Entry {
     private String title;
-    private String descriptions;
+    private String description;
 
-    public Entry(String title, String descriptions) {
+    public Entry(String title, String description) {
         this.title = title;
-        this.descriptions = descriptions;
+        this.description = description;
     }
 
     public String getTitle() {
@@ -17,11 +19,11 @@ public class Entry {
         this.title = title;
     }
 
-    public String getDescriptions() {
-        return descriptions;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptions(String descriptions) {
-        this.descriptions = descriptions;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

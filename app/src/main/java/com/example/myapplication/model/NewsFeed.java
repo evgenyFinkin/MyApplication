@@ -1,34 +1,33 @@
 package com.example.myapplication.model;
 
-import android.os.Bundle;
 import android.util.Log;
-
-import com.example.myapplication.pojo.RSSContent;
-import com.example.myapplication.ui.SecondTabFragment;
+import com.example.myapplication.util.RSSContent;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 public class NewsFeed {
-    private static final String TAG = "RSSContent";
+    private static final String TAG = "NewsFeed";
     private RSSContent rssContent = RSSContent.getInstance();
+    private ArrayList<Entry> entry = new ArrayList<Entry>();
+    private NewsArticle newsArticle = new NewsArticle();
 
-    private ArrayList<String> descriptions = new ArrayList<String>();
-    private ArrayList<String> titles = new ArrayList<String>();
+    public void setFeed(RSS body) {
+        rssContent.setFeed(body, entry);
+        passArticle(entry);
+    }
 
-    public void setNewsFeed (RSS feed) {
-        descriptions.addAll(rssContent.getDescription(feed));
-        titles.addAll(rssContent.getTitles(feed));
-
-        if(descriptions != null){
-            Log.d(TAG,"RSSContent, descriptions:" + descriptions);
-            Bundle descriptionBundle = new Bundle();
-            descriptionBundle.putStringArrayList("NewsDescription", descriptions);
-
-            SecondTabFragment secondTabFragment = new SecondTabFragment();
-            secondTabFragment.setArguments(descriptionBundle);
+    private void passArticle(ArrayList<Entry> entry) {
+        int i = 0;
+        while (entry.size()>i)  {
+            newsArticle.setLiveEntry(entry.get(i));
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            i++;
         }
     }
 
