@@ -1,31 +1,71 @@
 package com.example.myapplication.util;
 
+
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+
 import com.example.myapplication.model.Entry;
+import com.example.myapplication.ui.SecondTabFragment;
+import com.example.myapplication.view.NewsArticle;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProviders;
+
 
 public class FeedScroller extends Thread {
-    private int i = 0;
-    private boolean flag = false;
-    private int size;
+    private static final String TAG = "FeedScroller";
 
-    FeedScroller(int size){
+    private SecondTabFragment fragment;
+    private int size;
+    private int indx;
+    private ArrayList<Entry> mListLiveData = null;
+
+    public FeedScroller(SecondTabFragment fragment, int size, int indx, ArrayList mListLiveData) {
+        this.fragment = fragment;
         this.size = size;
+        this.indx = indx;
+        this.mListLiveData = mListLiveData;
+    }
+
+
+    public void setFragment(SecondTabFragment fragment) {
+        this.fragment = fragment;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setIndx(int indx) {
+        this.indx = indx;
+    }
+
+    public SecondTabFragment getFragment() {
+        return fragment;
+    }
+
+    public int getIndx() {
+        return indx;
     }
 
     @Override
     public void run() {
-        while (size>i)  {
+        while (true){
+            indx = (indx < size - 1) ? ++indx : 0;
+            fragment.setmIndx(indx);
+            assert fragment.getFragmentManager() != null;
+            fragment.getFragmentManager()
+                    .beginTransaction()
+                    .detach(fragment)
+                    .attach(fragment)
+                    .commit();
             try {
-                TimeUnit.SECONDS.sleep(5);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-
-
 }

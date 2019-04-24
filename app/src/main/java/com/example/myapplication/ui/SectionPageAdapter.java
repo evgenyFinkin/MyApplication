@@ -24,9 +24,7 @@ public class SectionPageAdapter extends FragmentPagerAdapter {
         mFragmentsTitlelList.add(title);
     }
 
-    public SectionPageAdapter(FragmentManager fm) {
-        super(fm);
-    }
+    public SectionPageAdapter(FragmentManager fm) { super(fm); }
 
     @Nullable
     @Override

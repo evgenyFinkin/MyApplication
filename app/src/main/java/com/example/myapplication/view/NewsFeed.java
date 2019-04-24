@@ -40,14 +40,7 @@ public class NewsFeed extends ViewModel {
     private void passArticle(@NonNull ArrayList<Entry> entry) {
         int i = 0;
         while (entry.size()>i)  {
-
             setNewsArticle(entry.get(i));
-            /*
-            try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
             i++;
         }
 

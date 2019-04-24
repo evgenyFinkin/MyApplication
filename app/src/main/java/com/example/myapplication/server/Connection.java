@@ -48,19 +48,12 @@ public class Connection {
             @Override
             public void onResponse(Call<RSS> rss, Response<RSS> response) {
                 assert response.body() != null;
-
-            /*Log.d(TAG,"onResponse, RSS feed: " + response.body().getChannel().getItem().toString());
-            Log.d(TAG,"onResponse, Server response:" + response.toString());*/
             rssContent.setFeed(response.body(),entry);
             newsFeed.setValue(entry);
-
-
             }
 
             @Override
             public void onFailure(Call<RSS> rss, Throwable t) {
-            /*Log.e(TAG,"onFailure: Was unable to retrieve RSS"
-                    + t.getMessage());*/
             }
         });
     }
