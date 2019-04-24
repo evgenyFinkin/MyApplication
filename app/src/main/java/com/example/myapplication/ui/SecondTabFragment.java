@@ -2,7 +2,6 @@ package com.example.myapplication.ui;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,8 @@ import android.widget.TextView;
 import com.addisonelliott.segmentedbutton.SegmentedButtonGroup;
 import com.example.myapplication.R;
 import com.example.myapplication.model.Entry;
-import com.example.myapplication.view.TypeOfFeed;
+import com.example.myapplication.view.NewsArticle;
+import com.example.myapplication.view.FeedState;
 
 import java.util.ArrayList;
 
@@ -50,27 +50,13 @@ public class SecondTabFragment extends Fragment {
         TextView tvTitleSecondaryFeedView = (TextView) view.findViewById(R.id.tvTitleSecondaryFeedView);
         TextView tvDescriptionSecondaryFeedView = (TextView) view.findViewById(R.id.tvDescriptionSecondaryFeedView);
 
-        TypeOfFeed typeOfFeed = ViewModelProviders.of(getActivity()).get(TypeOfFeed.class);
+        FeedState feedState = ViewModelProviders.of(getActivity()).get(FeedState.class);
 
-        if(mListLiveData != null)  {
-            if(mListLiveData.get(mIndx).getTitle() != null )    {
-                tvTitleMainFeed.setText((mListLiveData.get(mIndx).getTitle()));
-            }else {
-                tvTitleMainFeed.setText("No Title");
-            }
-        }else {
-            tvTitleMainFeed.setText("Failed to load Title");
-        }
-
-        if(mListLiveData != null)   {
-            if(mListLiveData.get(mIndx).getTitle() != null) {
-                tvDescriptionMainFeed.setText((mListLiveData.get(mIndx).getDescription()));
-            }else {
-                tvDescriptionMainFeed.setText("No Description");
-            }
-        }else {
-            tvDescriptionMainFeed.setText("Failed to load Description");
-        }
+        NewsArticle newsArticle = ViewModelProviders.of(getActivity()).get(NewsArticle.class);
+        newsArticle.getEntry().observe(this, entry -> {
+            tvTitleMainFeed.setText(entry.getTitle());
+            tvDescriptionMainFeed.setText(entry.getDescription());
+        });
 
 
         sbg.setOnPositionChangedListener(new SegmentedButtonGroup.OnPositionChangedListener() {
@@ -78,10 +64,10 @@ public class SecondTabFragment extends Fragment {
             public void onPositionChanged(int position) {
                 switch (position){
                     case 0:
-                        typeOfFeed.setFeedType(true);
+                        feedState.setFeedType(true);
                         break;
                     case 1:
-                        typeOfFeed.setFeedType(false);
+                        feedState.setFeedType(false);
                 }
             }
         });

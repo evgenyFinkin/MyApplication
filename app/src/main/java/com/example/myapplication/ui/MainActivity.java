@@ -1,16 +1,12 @@
 package com.example.myapplication.ui;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import com.example.myapplication.R;
-import com.example.myapplication.util.FeedLoader;
-import com.example.myapplication.util.FeedScroller;
+import com.example.myapplication.util.FeedSpider;
 import com.example.myapplication.view.NewsArticle;
-import com.example.myapplication.view.TypeOfFeed;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,10 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionPageAdapter mSectionPageAdapter;
     private ViewPager mViewPager;
-    FirstTabFragment mfirstTabFragment = new FirstTabFragment();
+    FirstTabFragment mFirstTabFragment = new FirstTabFragment();
     SecondTabFragment mSecondTabFragment = new SecondTabFragment();
-    private FeedScroller mFeedScroller;
-    private FeedLoader mFeedLoader;
 
 
     @Override
@@ -41,26 +35,15 @@ public class MainActivity extends AppCompatActivity {
         newsArticle.init();
 
         newsArticle.getNewsArticles().observe(this, entries -> {
-            mSecondTabFragment.setmListLiveData(entries);
-            mFeedScroller = new FeedScroller(mSecondTabFragment, entries.size(), 0, entries);
-            mFeedScroller.start();
+            FeedSpider feedScroller = new FeedSpider(newsArticle);
+            feedScroller.start();
         });
-
-        TypeOfFeed typeOfFeed = ViewModelProviders.of(this).get(TypeOfFeed.class);
-        typeOfFeed.init();
-        typeOfFeed.getFeedType().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                mFeedLoader = new FeedLoader();
-            }
-        });
-
     }
 
     private void setupViewPager(ViewPager viewPager)    {
         SectionPageAdapter sectionPageAdapter =
             new SectionPageAdapter(getSupportFragmentManager());
-        sectionPageAdapter.addFragment(mfirstTabFragment, "First Tab");
+        sectionPageAdapter.addFragment(mFirstTabFragment, "First Tab");
         sectionPageAdapter.addFragment(mSecondTabFragment, "Second Tab");
         viewPager.setAdapter(sectionPageAdapter);
     }

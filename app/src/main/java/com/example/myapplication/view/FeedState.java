@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class TypeOfFeed extends ViewModel {
+public class FeedState extends ViewModel {
     private static final String TAG = "NewsFeed";
 
     private MutableLiveData<Boolean> feedType = new MutableLiveData<>();
