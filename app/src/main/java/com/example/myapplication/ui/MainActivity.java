@@ -5,7 +5,11 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import com.example.myapplication.R;
-import com.example.myapplication.util.FeedSpider;
+import com.example.myapplication.util.EntertainmentSpider;
+import com.example.myapplication.util.EnvironmentSpider;
+import com.example.myapplication.util.NewsSpider;
+import com.example.myapplication.view.EntertainmentArticle;
+import com.example.myapplication.view.EnvironmentArticle;
 import com.example.myapplication.view.NewsArticle;
 import com.google.android.material.tabs.TabLayout;
 
@@ -30,14 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(mViewPager);
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(mViewPager);
-
-        NewsArticle newsArticle = ViewModelProviders.of(this).get(NewsArticle.class);
-        newsArticle.init();
-
-        newsArticle.getNewsArticles().observe(this, entries -> {
-            FeedSpider feedScroller = new FeedSpider(newsArticle);
-            feedScroller.start();
-        });
     }
 
     private void setupViewPager(ViewPager viewPager)    {

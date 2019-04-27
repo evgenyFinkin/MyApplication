@@ -11,13 +11,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NewsArticle extends ViewModel{
-    private static final String TAG = "NewsArticle";
-    private MutableLiveData<ArrayList<Entry>> newsArticle;
+public class EnvironmentArticle extends ViewModel{
+    private static final String TAG = "EntertainmentArticle";
+    private MutableLiveData<ArrayList<Entry>> environmentArticle;
     private MutableLiveData<Entry> entry = new MutableLiveData<Entry>();
 
     public LiveData<ArrayList<Entry>> getNewsArticles()   {
-        return newsArticle;
+        return environmentArticle;
     }
     public LiveData<Entry> getEntry()   {
         return entry;
@@ -26,12 +26,12 @@ public class NewsArticle extends ViewModel{
     private Connection connection;
 
     public void init(){
-        if(newsArticle != null){
+        if(environmentArticle != null){
             return;
         }
         connection = Connection.getInstance();
-        connection.openConnection("businessNews");
-        newsArticle = connection.getNewsFeed();
+        connection.openConnection("environment");
+        environmentArticle = connection.getNewsFeed();
     }
     public void setEntry(int i)  {
         entry.postValue(getNewsArticles().getValue().get(i));
