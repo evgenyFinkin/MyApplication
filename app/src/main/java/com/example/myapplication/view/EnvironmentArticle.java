@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModel;
 public class EnvironmentArticle extends ViewModel{
     private static final String TAG = "EntertainmentArticle";
     private MutableLiveData<ArrayList<Entry>> environmentArticle;
+    private ArrayList<Entry> entries = new ArrayList<>();
     private MutableLiveData<Entry> entry = new MutableLiveData<Entry>();
 
     public LiveData<ArrayList<Entry>> getNewsArticles()   {
@@ -29,9 +30,10 @@ public class EnvironmentArticle extends ViewModel{
         if(environmentArticle != null){
             return;
         }
+        environmentArticle = new MutableLiveData<>();
         connection = Connection.getInstance();
-        connection.openConnection("environment");
-        environmentArticle = connection.getNewsFeed();
+        connection.openConnection("environment", entries);
+        environmentArticle.setValue(entries);
     }
     public void setEntry(int i)  {
         entry.postValue(getNewsArticles().getValue().get(i));

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModel;
 public class EntertainmentArticle extends ViewModel{
     private static final String TAG = "EntertainmentArticle";
     private MutableLiveData<ArrayList<Entry>> entertainmentArticle;
+    private ArrayList<Entry> entries = new ArrayList<>();
     private MutableLiveData<Entry> entry = new MutableLiveData<Entry>();
 
     public LiveData<ArrayList<Entry>> getNewsArticles()   {
@@ -29,9 +30,10 @@ public class EntertainmentArticle extends ViewModel{
         if(entertainmentArticle != null){
             return;
         }
+        entertainmentArticle = new MutableLiveData<>();
         connection = Connection.getInstance();
-        connection.openConnection("entertainment");
-        entertainmentArticle = connection.getNewsFeed();
+        connection.openConnection("entertainment",entries);
+        entertainmentArticle.setValue(entries);
     }
     public void setEntry(int i)  {
         entry.postValue(getNewsArticles().getValue().get(i));

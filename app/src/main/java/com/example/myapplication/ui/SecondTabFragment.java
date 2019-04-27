@@ -63,11 +63,11 @@ public class SecondTabFragment extends Fragment {
         newsArticle.init();
         NewsSpider newsSpider = new NewsSpider(newsArticle);
 
-        EntertainmentArticle entertainmentArticle = ViewModelProviders.of(this).get(EntertainmentArticle.class);
+        EntertainmentArticle entertainmentArticle = ViewModelProviders.of(getActivity()).get(EntertainmentArticle.class);
         entertainmentArticle.init();
         EntertainmentSpider entertainmentSpider = new EntertainmentSpider(entertainmentArticle);
 
-        EnvironmentArticle environmentArticle = ViewModelProviders.of(this).get(EnvironmentArticle.class);
+        EnvironmentArticle environmentArticle = ViewModelProviders.of(getActivity()).get(EnvironmentArticle.class);
         environmentArticle.init();
         EnvironmentSpider environmentSpider = new EnvironmentSpider(environmentArticle);
 
