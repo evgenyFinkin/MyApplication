@@ -1,16 +1,9 @@
 package com.example.myapplication.ui;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import com.example.myapplication.R;
-import com.example.myapplication.util.EntertainmentSpider;
-import com.example.myapplication.util.EnvironmentSpider;
-import com.example.myapplication.util.NewsSpider;
-import com.example.myapplication.view.EntertainmentArticle;
-import com.example.myapplication.view.EnvironmentArticle;
-import com.example.myapplication.view.NewsArticle;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(mViewPager);
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(mViewPager);
-
 
     }
 

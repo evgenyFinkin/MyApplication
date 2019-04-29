@@ -38,8 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvRssChannel"
-            android:text="@string/tvRssChannel"/>
+            android:id="@+id/tvRssChannel"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,6 @@ package com.example.myapplication.ui;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +11,13 @@ import android.widget.TextView;
 import com.addisonelliott.segmentedbutton.SegmentedButtonGroup;
 import com.example.myapplication.R;
 import com.example.myapplication.model.Entry;
-import com.example.myapplication.util.EntertainmentSpider;
-import com.example.myapplication.util.EnvironmentSpider;
-import com.example.myapplication.util.NewsSpider;
-import com.example.myapplication.view.EntertainmentArticle;
-import com.example.myapplication.view.EnvironmentArticle;
-import com.example.myapplication.view.NewsArticle;
+import com.example.myapplication.util.EntertainmentCrawler;
+import com.example.myapplication.util.EnvironmentCrawler;
+import com.example.myapplication.util.NewsCrawler;
+import com.example.myapplication.view.EntertainmentFeed;
+import com.example.myapplication.view.EnvironmentFeed;
 import com.example.myapplication.view.FeedState;
-
-import java.util.ArrayList;
+import com.example.myapplication.view.NewsFeed;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,22 +29,11 @@ import androidx.lifecycle.ViewModelProviders;
 public class SecondTabFragment extends Fragment {
 
     private static final String TAG = "SecondTabFragment";
-    private int mIndx = 0;
-    private ArrayList<Entry> mListLiveData = null;
-
-    public void setmIndx(int mIndx) {
-        this.mIndx = mIndx;
-    }
-
-    public void setmListLiveData(ArrayList<Entry> mListLiveData) {
-        this.mListLiveData = mListLiveData;
-    }
 
     @Nullable
     @Override
     public View onCreateView( @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.second_tab_fragment, container,false);
-
         SegmentedButtonGroup sbg = (SegmentedButtonGroup) view.findViewById(R.id.segmentedbutton);
         LinearLayout MainFeed = (LinearLayout)view.findViewById(R.id.MainFeed);
         LinearLayout SecondaryFeedView = (LinearLayout)view.findViewById(R.id.SecondaryFeedView);
@@ -57,56 +43,60 @@ public class SecondTabFragment extends Fragment {
         TextView tvTitleSecondaryFeedView = (TextView) view.findViewById(R.id.tvTitleSecondaryFeedView);
         TextView tvDescriptionSecondaryFeedView = (TextView) view.findViewById(R.id.tvDescriptionSecondaryFeedView);
 
+        NewsFeed newsFeed = ViewModelProviders.of(getActivity()).get(NewsFeed.class);
+        newsFeed.init("businessNews");
+        NewsCrawler newsCrawler = new NewsCrawler(newsFeed);
+
+        EntertainmentFeed entertainmentFeed = ViewModelProviders.of(getActivity()).get(EntertainmentFeed.class);
+        entertainmentFeed.init("entertainment");
+        EntertainmentCrawler entertainmentCrawler = new EntertainmentCrawler(entertainmentFeed);
+
+        EnvironmentFeed environmentFeed = ViewModelProviders.of(getActivity()).get(EnvironmentFeed.class);
+        environmentFeed.init("environment");
+        EnvironmentCrawler environmentCrawler = new EnvironmentCrawler(environmentFeed);
+
+
         FeedState feedState = ViewModelProviders.of(getActivity()).get(FeedState.class);
-
-        NewsArticle newsArticle = ViewModelProviders.of(getActivity()).get(NewsArticle.class);
-        newsArticle.init();
-        NewsSpider newsSpider = new NewsSpider(newsArticle);
-
-        EntertainmentArticle entertainmentArticle = ViewModelProviders.of(getActivity()).get(EntertainmentArticle.class);
-        entertainmentArticle.init();
-        EntertainmentSpider entertainmentSpider = new EntertainmentSpider(entertainmentArticle);
-
-        EnvironmentArticle environmentArticle = ViewModelProviders.of(getActivity()).get(EnvironmentArticle.class);
-        environmentArticle.init();
-        EnvironmentSpider environmentSpider = new EnvironmentSpider(environmentArticle);
-
-
-
-
         feedState.getFeedType().observe(this, aBoolean -> {
             if(aBoolean)    {
-                newsSpider.setState(true);
-                newsSpider.start();
-                environmentSpider.setState(false);
-                entertainmentSpider.setState(false);
+                newsCrawler.start();
+                entertainmentCrawler.setThreadSuspended(true);
+                environmentCrawler.setThreadSuspended(true);
 
-                newsArticle.getEntry().observe(SecondTabFragment.this, entry -> {
-                    tvTitleMainFeed.setText(entry.getTitle());
-                    tvDescriptionMainFeed.setText(entry.getDescription());
-                    tvTitleSecondaryFeedView.setText("");
-                    tvDescriptionSecondaryFeedView.setText("");
+                newsFeed.getEntry().observe(SecondTabFragment.this, new Observer<Entry>() {
+                    @Override
+                    public void onChanged(Entry entry) {
+                        tvTitleMainFeed.setText(entry.getTitle());
+                        tvDescriptionMainFeed.setText(entry.getDescription());
+                        tvTitleSecondaryFeedView.setText("");
+                        tvDescriptionSecondaryFeedView.setText("");
+                    }
                 });
+
             }
             if(!aBoolean)   {
-                entertainmentSpider.setState(true);
-                entertainmentSpider.start();
+                newsCrawler.setThreadSuspended(true);
+                entertainmentCrawler.start();
+                environmentCrawler.start();
 
-                entertainmentArticle.getEntry().observe(SecondTabFragment.this, entry -> {
-                    tvTitleSecondaryFeedView.setText(entry.getTitle());
-                    tvDescriptionSecondaryFeedView.setText(entry.getDescription());
+                entertainmentFeed.getEntry().observe(SecondTabFragment.this, new Observer<Entry>() {
+                    @Override
+                    public void onChanged(Entry entry) {
+                        tvTitleMainFeed.setText(entry.getTitle());
+                        tvDescriptionMainFeed.setText(entry.getDescription());
+                    }
+                });
+                environmentFeed.getEntry().observe(SecondTabFragment.this, new Observer<Entry>() {
+                    @Override
+                    public void onChanged(Entry entry) {
+                        tvTitleSecondaryFeedView.setText(entry.getTitle());
+                        tvDescriptionSecondaryFeedView.setText(entry.getDescription());
+                    }
                 });
 
-                newsSpider.setState(false);
-                environmentSpider.setState(true);
-                environmentSpider.start();
-
-                environmentArticle.getEntry().observe(SecondTabFragment.this, entry -> {
-                    tvTitleMainFeed.setText(entry.getTitle());
-                    tvDescriptionMainFeed.setText(entry.getDescription());
-                });
             }
-        });
+        }
+        );
 
 
         sbg.setOnPositionChangedListener(new SegmentedButtonGroup.OnPositionChangedListener() {
@@ -123,7 +113,6 @@ public class SecondTabFragment extends Fragment {
         });
 
         sbg.getPosition();
-
         return view;
     }
 }

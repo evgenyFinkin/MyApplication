@@ -27,7 +27,6 @@ public class FirstTabFragment extends Fragment {
                                       ,container,false);
 
         TextView tvRssChannel = (TextView) view.findViewById(R.id.tvRssChannel);
-        tvRssChannel.setText("News");
 
         FeedState feedState = ViewModelProviders.of(getActivity()).get(FeedState.class);
         feedState.getFeedType().observe(this, aBoolean ->
