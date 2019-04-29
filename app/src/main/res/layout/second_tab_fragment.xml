@@ -63,18 +63,14 @@
             <TextView
                 android:id="@+id/tvTitleMainFeed"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:layout_weight="9"
-                android:text="Title" />
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/tvDescriptionMainFeed"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:layout_weight="1"
-                android:text="Description" />
+                android:layout_height="wrap_content"
+                android:padding="8dp"/>
 
         </LinearLayout>
 
@@ -89,18 +85,14 @@
             <TextView
                 android:id="@+id/tvTitleSecondaryFeedView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:layout_weight="9"
-                android:text="Title" />
+                android:layout_height="wrap_content"
+                android:padding="8dp"/>
 
             <TextView
                 android:id="@+id/tvDescriptionSecondaryFeedView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:layout_weight="1"
-                android:text="Description" />
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
 
         </LinearLayout>
     </LinearLayout>

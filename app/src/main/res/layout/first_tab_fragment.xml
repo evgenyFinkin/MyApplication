@@ -28,13 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvDate"
-            android:text="@string/tvDate"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvTime"
-            android:text="@string/tvTime"/>
+            android:id="@+id/tvDate"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
